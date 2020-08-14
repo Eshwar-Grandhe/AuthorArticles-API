@@ -28,7 +28,6 @@ app.get('/timesnow/requests',(req,res)=>{
 // ?article=pandemic-overload-covid-19-fatigue-is-getting-to-us-but-we-have-to-grin-and-bear-it&id=633412
 // http://localhost:3000/timesnow/article?article=pandemic-overload-covid-19-fatigue-is-getting-to-us-but-we-have-to-grin-and-bear-it&id=633412
 app.get('/timesnow/article',(req,res)=>{
-
     const obj = [];
     let parameters = req.query;
     const link = "https://www.timesnownews.com/columns/article/"+parameters.articleName+"/"+parameters.id; 
@@ -63,6 +62,7 @@ app.get('/thehindu/requests',(req,res)=>{
 });
 
 // here the articleName should contain the parameters after the slash too.
+// http://localhost:3000/thehindu/article?articleName=news/resources/Women-as-Agents-of-Change-Sonia-Gandhis-Commonwealth-Lecture&id=article14952355.ece
 app.get('/thehindu/article',(req,res)=>{
     const obj = [];
     let parameters = req.query;
