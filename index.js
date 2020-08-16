@@ -28,13 +28,40 @@ app.get('/timesnow/requests',(req,res)=>{
 // ?article=pandemic-overload-covid-19-fatigue-is-getting-to-us-but-we-have-to-grin-and-bear-it&id=633412
 // http://localhost:3000/timesnow/article?article=pandemic-overload-covid-19-fatigue-is-getting-to-us-but-we-have-to-grin-and-bear-it&id=633412
 app.get('/timesnow/article',(req,res)=>{
+    // const obj = [];
+    // let parameters = req.query;
+    // const link = "https://www.timesnownews.com/columns/article/"+parameters.articleName+"/"+parameters.id; 
+    // axios.get(link).then(urlResponse => {
+    //     const $ = cheerio.load(urlResponse.data);
+    //     let heading = $('h1').text().trim();
+    //     let uploadedDate = $('div.sub-heading').text().trim();
+    //     obj.push({
+    //         heading,
+    //         uploadedDate
+    //     });
+    //     console.log(obj);
+    //     res.json(obj);
+    // });
     const obj = [];
     let parameters = req.query;
-    const link = "https://www.timesnownews.com/columns/article/"+parameters.articleName+"/"+parameters.id; 
+    const link = "https://www.timesnownews.com/"+parameters.articleName+"/"+parameters.id; 
     axios.get(link).then(urlResponse => {
         const $ = cheerio.load(urlResponse.data);
-        let heading = $('h1').text().trim();
-        let uploadedDate = $('div.sub-heading').text().trim();
+        var tags = parameters.articleName.split('/');
+        let heading, uploadedDate;
+        if(tags[0]=='videos'){
+            if(tags[1]=='podcasts') {
+                heading = $("div._p_episode_name").text().trim();
+                uploadedDate = $("div._p_audio_duration").text().trim();
+            }else{
+                heading = $("div.heading").text().trim();
+                uploadedDate = $("div.about-event").text().trim();
+            } 
+        }else {
+            heading = $('h1').text().trim();
+            uploadedDate = $('div.sub-heading').text().trim();
+        }
+        
         obj.push({
             heading,
             uploadedDate
