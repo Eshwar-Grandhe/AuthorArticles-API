@@ -1,0 +1,45 @@
+.form-heading {
+    padding-top: 0px 10px 10px 10px;
+    margin-top: 50px;
+}
+
+.author-form {
+    margin-top: 20px;
+}
+
+.form-button {
+    width: 100%;
+}
+
+.tagbox-span {
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 2px;
+    margin-left: 5px;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.cross {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+}
+
+.cross:hover {
+    cursor: pointer;
+}
+
+.tagbox-name {
+    text-decoration: none;
+    color: black;
+}
+
+.tagbox-name:hover {
+    text-decoration: none;
+    color: rgb(122, 120, 120);
+}
+
+.form-sub-heading {
+    margin-top: 20px;
+}
