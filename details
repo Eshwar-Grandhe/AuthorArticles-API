@@ -1,0 +1,15 @@
+Times Now Categories:
+https://www.timesnownews.com/
+Categories---------heading-----------date
+business-economy---------h1----------div.sub-heading
+education----------------"-----------"
+india--------------------"------------"
+times-facts--------------"------------"
+latest-news--------------"------------"
+technology-science-------"------------"
+sports-------------------"------------"
+health
+https://www.timesnownews.com/videos/podcasts/
+podcast------------div._p_episode_name----------div._p_audio_duration
+https://www.timesnownews.com/videos/mirror-now
+other than podcast --------div.heading---------div.about-event

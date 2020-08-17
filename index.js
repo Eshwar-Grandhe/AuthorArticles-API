@@ -1,8 +1,11 @@
 const express = require('express');
 const cheerio = require('cheerio');
 const axios = require('axios');
+var cors = require('cors');
 
 const app = express();
+
+app.use(cors());
 
 // Hello world example
 app.get('/',(req,res)=>{
@@ -27,6 +30,7 @@ app.get('/timesnow/requests',(req,res)=>{
 
 // ?article=pandemic-overload-covid-19-fatigue-is-getting-to-us-but-we-have-to-grin-and-bear-it&id=633412
 // http://localhost:3000/timesnow/article?article=pandemic-overload-covid-19-fatigue-is-getting-to-us-but-we-have-to-grin-and-bear-it&id=633412
+// http://localhost:3000/timesnow/article?articleName=videos/mirror-now/politics/tamil-nadu-cm-edapadis-independence-day-speech-sparks-controversy-will-ops-be-the-next-cm&id=71114
 app.get('/timesnow/article',(req,res)=>{
     const obj = [];
     let parameters = req.query;
@@ -35,8 +39,8 @@ app.get('/timesnow/article',(req,res)=>{
         const $ = cheerio.load(urlResponse.data);
         var tags = parameters.articleName.split('/');
         let heading, uploadedDate;
-        if(tags[0]==='videos'){
-            if(tags[1]==='podcasts') {
+        if(tags[0]=='videos'){
+            if(tags[1]=='podcasts') {
                 heading = $("div._p_episode_name").text().trim();
                 uploadedDate = $("div._p_audio_duration").text().trim();
             }else{
@@ -111,6 +115,6 @@ app.get('/thehindu/article',(req,res)=>{
 });
 
 
-app.listen((process.env.PORT || 3000), function () {
-    console.log("The Server Has Started! at port 3000");
+app.listen((process.env.PORT || 5000), function () {
+    console.log("The Server Has Started! at port 5000");
   });
