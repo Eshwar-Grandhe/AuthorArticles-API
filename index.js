@@ -28,20 +28,6 @@ app.get('/timesnow/requests',(req,res)=>{
 // ?article=pandemic-overload-covid-19-fatigue-is-getting-to-us-but-we-have-to-grin-and-bear-it&id=633412
 // http://localhost:3000/timesnow/article?article=pandemic-overload-covid-19-fatigue-is-getting-to-us-but-we-have-to-grin-and-bear-it&id=633412
 app.get('/timesnow/article',(req,res)=>{
-    // const obj = [];
-    // let parameters = req.query;
-    // const link = "https://www.timesnownews.com/columns/article/"+parameters.articleName+"/"+parameters.id; 
-    // axios.get(link).then(urlResponse => {
-    //     const $ = cheerio.load(urlResponse.data);
-    //     let heading = $('h1').text().trim();
-    //     let uploadedDate = $('div.sub-heading').text().trim();
-    //     obj.push({
-    //         heading,
-    //         uploadedDate
-    //     });
-    //     console.log(obj);
-    //     res.json(obj);
-    // });
     const obj = [];
     let parameters = req.query;
     const link = "https://www.timesnownews.com/"+parameters.articleName+"/"+parameters.id; 
@@ -49,8 +35,8 @@ app.get('/timesnow/article',(req,res)=>{
         const $ = cheerio.load(urlResponse.data);
         var tags = parameters.articleName.split('/');
         let heading, uploadedDate;
-        if(tags[0]=='videos'){
-            if(tags[1]=='podcasts') {
+        if(tags[0]==='videos'){
+            if(tags[1]==='podcasts') {
                 heading = $("div._p_episode_name").text().trim();
                 uploadedDate = $("div._p_audio_duration").text().trim();
             }else{
@@ -61,7 +47,6 @@ app.get('/timesnow/article',(req,res)=>{
             heading = $('h1').text().trim();
             uploadedDate = $('div.sub-heading').text().trim();
         }
-        
         obj.push({
             heading,
             uploadedDate
@@ -96,9 +81,26 @@ app.get('/thehindu/article',(req,res)=>{
     const link = "https://www.thehindu.com/"+parameters.articleName+"/"+parameters.id; 
     axios.get(link).then(urlResponse => {
         const $ = cheerio.load(urlResponse.data);
-        let heading = $('h1.title').text().trim();
-        let uploadedDate = $('div.ut-container').text().trim();
-         uploadedDate=uploadedDate.replace( /[\r\n]+/gm, "" ); 
+        var tags = parameters.articleName.split('/');
+        let heading, uploadedDate;
+        if(tags[0]==="opinion")
+        {
+            heading = $('h2.special-article-heading').text().trim();
+            uploadedDate = $('div.ut-container').text().trim();
+            uploadedDate=uploadedDate.replace( /[\r\n]+/gm, "" ); 
+
+        }
+        else if( tags[0]==="specials")
+        {
+            heading = $('h1.special-heading').text().trim();
+            uploadedDate = $('div.ut-container').text().trim();
+            uploadedDate=uploadedDate.replace( /[\r\n]+/gm, "" ); 
+        }
+        else{
+        heading = $('h1.title').text().trim();
+        uploadedDate = $('div.ut-container').text().trim();
+        uploadedDate=uploadedDate.replace( /[\r\n]+/gm, "" ); 
+        }
         obj.push({
             heading,
             uploadedDate
