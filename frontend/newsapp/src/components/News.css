@@ -7,6 +7,40 @@
     margin-bottom: 20px;
 }
 
-.author-card{
-    border: 1px rgba(141, 138, 138, 0.788);
+.article-card{
+    border: 1px solid rgba(131, 131, 132, 0.49);
+    margin-bottom: 5px;
+    padding: 7px;
+    border-radius: 10px;
+}
+
+.author-heading {
+    font-weight: bold !important;
+}
+
+.article-title {
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.2;
+    text-decoration: none;
+}
+
+.article-title:hover {
+    text-decoration: none;
+}
+
+.scrollable{
+    overflow-y: auto;
+    max-height: 400px;
+    
+  }
+
+.article-time {
+    font-size: 0.7rem;
+    font-weight: 200;
+    line-height: 1.2;
+}
+
+.waiting {
+    margin-top: 40px;
 }

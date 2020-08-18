@@ -10,6 +10,7 @@ import News from './components/News';
 import AppBar from './components/AppBar';
 
 
+
 class App extends Component{
 
   constructor(props) {
@@ -20,6 +21,8 @@ class App extends Component{
       hindudata: [],
     }
   };
+
+  
 
   componentDidMount() {
     var timesd = localStorage.getItem("timesdata");
