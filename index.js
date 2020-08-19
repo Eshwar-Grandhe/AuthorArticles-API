@@ -85,9 +85,26 @@ app.get('/thehindu/article',(req,res)=>{
     const link = "https://www.thehindu.com/"+parameters.articleName+"/"+parameters.id; 
     axios.get(link).then(urlResponse => {
         const $ = cheerio.load(urlResponse.data);
-        let heading = $('h1.title').text().trim();
-        let uploadedDate = $('div.ut-container').text().trim();
-         uploadedDate=uploadedDate.replace( /[\r\n]+/gm, "" ); 
+        var tags = parameters.articleName.split('/');
+        let heading, uploadedDate;
+        if(tags[0]==="opinion")
+        {
+            heading = $('h2.special-article-heading').text().trim();
+            uploadedDate = $('div.ut-container').text().trim();
+            uploadedDate=uploadedDate.replace( /[\r\n]+/gm, "" ); 
+
+        }
+        else if( tags[0]==="specials")
+        {
+            heading = $('h1.special-heading').text().trim();
+            uploadedDate = $('div.ut-container').text().trim();
+            uploadedDate=uploadedDate.replace( /[\r\n]+/gm, "" ); 
+        }
+        else{
+        heading = $('h1.title').text().trim();
+        uploadedDate = $('div.ut-container').text().trim();
+        uploadedDate=uploadedDate.replace( /[\r\n]+/gm, "" ); 
+        }
         obj.push({
             heading,
             uploadedDate
