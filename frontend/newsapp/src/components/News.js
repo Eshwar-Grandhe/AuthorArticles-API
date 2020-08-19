@@ -22,11 +22,27 @@ class News extends Component {
         }
     }
 
+
+
     componentDidMount() {
-        
-        console.log(this.props.timesdata.length);
+        var timesFallback, hinduFallback;
+        if(this.props.timesdata.length===0){
+            var timesd = localStorage.getItem("timesdata");
+            var d = JSON.parse(timesd);
+            timesFallback = d;
+        }else {
+            timesFallback = this.props.timesdata;
+        }
+        if(this.props.hindudata.length===0) {
+            var hindud = localStorage.getItem("hindudata");
+            var h = JSON.parse(hindud);
+            hinduFallback = h;
+        }else {
+            hinduFallback = this.props.hindudata;
+        }
+        console.log("News compDidMount = "+this.props.timesdata.length);
         // ------------------------- Collecting Times Now data -----------------------------------
-        this.props.timesdata.map((data) => {
+        timesFallback.map((data) => {
             var tags = data.authorTag.split('/');
             var aname = data.authorName;
             var collected = [];
@@ -67,7 +83,7 @@ class News extends Component {
         });
 
         // ------------------------------- Collecting The Hindu data ---------------------------
-        this.props.hindudata.map((data) => {
+        hinduFallback.map((data) => {
             var tags = data.authorTag.split('-');
             var id = tags[tags.length-1];
             id = id.replace('/','');
@@ -88,7 +104,7 @@ class News extends Component {
                     var dataa = datai.split('/');
                     var id = dataa[dataa.length-1];
                     var fallbackTitle = dataa[dataa.length-2];
-                    fallbackTitle.replace('-'," ");
+                    fallbackTitle = fallbackTitle.replace('-'," ");
                     dataa.splice(-1, 1);
                     datai = dataa.join('/');
                     var hindu_sub_url = base_url+"thehindu/article?articleName="+datai.trim()+"&id="+id.trim();
@@ -136,7 +152,7 @@ class News extends Component {
                             console.log(author[authorName]);
                             return (
                                 <>
-                                    <Col xs={12} lg={6} >
+                                    <Col xs={12} lg={6} className="card-margin">
                                         <Card className="article-card">
                                             <Card.Body style={{height: 500}}>
                                                 <Card.Title className="text-center author-heading"> {authorName} </Card.Title>
@@ -169,7 +185,7 @@ class News extends Component {
                             console.log(author[authorName]);
                             return (
                                 <>
-                                    <Col xs={12} lg={6} >
+                                    <Col xs={12} lg={6} className="card-margin">
                                         <Card className="article-card">
                                             <Card.Body style={{height: 500}}>
                                                 <Card.Title className="text-center author-heading"> {authorName} </Card.Title>
