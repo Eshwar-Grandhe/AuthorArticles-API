@@ -10,6 +10,7 @@ import News from './components/News';
 import AppBar from './components/AppBar';
 
 
+
 class App extends Component{
 
   constructor(props) {
@@ -20,6 +21,8 @@ class App extends Component{
       hindudata: [],
     }
   };
+
+  
 
   componentDidMount() {
     var timesd = localStorage.getItem("timesdata");
@@ -32,7 +35,10 @@ class App extends Component{
       var h = JSON.parse(hindud);
       this.setState({hindudata: h});
     }
+    console.log("App-ComponentDidMount");
+
   }
+
 
   addTimesData = (authorName, authorTag) => {
     this.setState({timesdata: [...this.state.timesdata, {authorName: authorName, authorTag: authorTag}]}, () => {
@@ -82,7 +88,9 @@ class App extends Component{
               />
             </Route>
             <Route path="/news">
-              <News timesdata={this.state.timesdata} hindudata={this.state.hindudata} />
+              <News timesdata={this.state.timesdata}
+               hindudata={this.state.hindudata}
+               />
             </Route>
           </Switch>
         </Router>

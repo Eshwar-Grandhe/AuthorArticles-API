@@ -87,8 +87,8 @@ class Home extends Component {
                                     </Form.Control>
                                     <br />
                                     <Form.Row>
-                                        <Col xs={7} ><Form.Control size="md" ref={this.asbase} disabled defaultValue="https://www.timesnownews.com/expert/"></Form.Control> </Col>
-                                        <Col xs={5} ><Form.Control size="md" ref={this.atag} placeholder="author tag"></Form.Control></Col>
+                                        <Col xs={8} ><Form.Control size="md" ref={this.asbase} disabled defaultValue="https://www.timesnownews.com/expert/"></Form.Control> </Col>
+                                        <Col xs={4} ><Form.Control size="md" ref={this.atag} placeholder="author tag"></Form.Control></Col>
                                     </Form.Row>
                                     <br />
                                     <Form.Row>
