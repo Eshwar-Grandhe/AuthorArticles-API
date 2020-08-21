@@ -8,12 +8,6 @@ const app = express();
 // app.use(cors());
 app.use(cors({origin: '*'}));
 
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "YOUR-DOMAIN.TLD"); // update to match the domain you will make the request from
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     next();
-//   });
-
 // Hello world example
 app.get('/',(req,res)=>{
     res.send("Hello World!");
@@ -119,6 +113,30 @@ app.get('/thehindu/article',(req,res)=>{
         console.log(obj);
         res.json(obj);
     });
+});
+
+// Live mint
+// Example url: http://localhost:5000/livemint/author?name=Swaraj-Singh-Dhanjal
+app.get('/livemint/author',function(req,res){
+    const obj = [];
+    let parameters = req.query;
+    const link = "https://www.livemint.com/Search/Link/Author/"+parameters.name;  
+    axios.get(link).then(urlResponse =>{
+        const $ = cheerio.load(urlResponse.data);
+        const headings = [];
+        $('div.headlineSec').each((i,element)=>{
+            const heads = $(element).find('h2').text();
+            const readtime = $(element).find('em > span').text();
+            const uploadtime = $(element).find('span > span').text();
+            headings.push({
+                heads,
+                readtime,
+                uploadtime
+            });
+        });
+        res.json(headings);
+    });
+
 });
 
 
