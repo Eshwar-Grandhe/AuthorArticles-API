@@ -42,13 +42,14 @@ class News extends Component {
         }
         console.log("News compDidMount = "+this.props.timesdata.length);
         // ------------------------- Collecting Times Now data -----------------------------------
+        // axios.get(url, { headers: {'Access-Control-Allow-Origin': *} } )
         timesFallback.map((data) => {
             var tags = data.authorTag.split('/');
             var aname = data.authorName;
             var collected = [];
             var times_url = base_url+"timesnow/requests?author="+tags[0].trim()+"&id="+tags[1].trim();
             // console.log(times_url);
-            axios.get(times_url).then(res => {
+            axios.get(times_url,{ headers: {'Access-Control-Allow-Origin': '*'} } ).then(res => {
                 if(res.data.length>10){
                     res.data.splice(10, res.data.length-10);
                 }
@@ -63,7 +64,7 @@ class News extends Component {
                     datai = dataa.join('/');
                     var times_sub_url = base_url+"timesnow/article?articleName="+datai.trim()+"&id="+id.trim();
                     // console.log(times_sub_url);
-                    axios.get(times_sub_url).then(res => {
+                    axios.get(times_sub_url, { headers: {'Access-Control-Allow-Origin': '*'} }).then(res => {
                         // console.log(res.data[0].heading);
                         // console.log(res.data[0].uploadedDate);
                         collected = [...collected, {heading: res.data[0].heading, time: res.data[0].uploadedDate, link: actualLink}];
@@ -92,7 +93,7 @@ class News extends Component {
             var collected = [];
             var hindu_url = base_url+"thehindu/requests?author="+aname+"&id="+id;
             // console.log(hindu_url);
-            axios.get(hindu_url).then(res => {
+            axios.get(hindu_url, { headers: {'Access-Control-Allow-Origin': '*'} }).then(res => {
                 if(res.data.length>10){
                     res.data.splice(10, res.data.length-10);
                 }
@@ -109,7 +110,7 @@ class News extends Component {
                     datai = dataa.join('/');
                     var hindu_sub_url = base_url+"thehindu/article?articleName="+datai.trim()+"&id="+id.trim();
                     // console.log(hindu_sub_url);
-                    axios.get(hindu_sub_url).then(res => {
+                    axios.get(hindu_sub_url, { headers: {'Access-Control-Allow-Origin': '*'} }).then(res => {
                         // console.log(res.data[0].heading);
                         // console.log(res.data[0].uploadedDate);
                         if(res.data[0].heading==="") res.data[0].heading=fallbackTitle;
