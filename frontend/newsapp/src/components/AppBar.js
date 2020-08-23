@@ -10,7 +10,7 @@ function AppBar() {
                 <Container>
                 <Navbar.Brand as={Link} to="/">
                     <img
-                        src="http://smartlabtech.com/wp-content/uploads/2019/09/smartlabtech-logo.png"
+                        src="https://images.ctfassets.net/iu0mu3vn5llb/1HMwryt8JemgsgOWuYuQmq/2f3131c800d78b3b4ae8532219b139d2/globus.png"
                         className="align-top brandimg"
                         alt="SmartLabTech"
                     />  

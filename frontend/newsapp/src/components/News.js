@@ -17,15 +17,17 @@ class News extends Component {
         this.state = {
             times: [],
             hindu: [],
+            live: [],
             times_illegal_entries: 0,
             hindu_illegal_entries: 0,
+            live_illegal_entries: 0,
         }
     }
 
 
 
     componentDidMount() {
-        var timesFallback, hinduFallback;
+        var timesFallback, hinduFallback, liveFallback;
         if(this.props.timesdata.length===0){
             var timesd = localStorage.getItem("timesdata");
             var d = JSON.parse(timesd);
@@ -40,7 +42,14 @@ class News extends Component {
         }else {
             hinduFallback = this.props.hindudata;
         }
-        console.log("News compDidMount = "+this.props.timesdata.length);
+        if(this.props.livedata.length===0) {
+            var lived = localStorage.getItem("livedata");
+            var l = JSON.parse(lived);
+            liveFallback = l;
+        }else {
+            liveFallback = this.props.livedata;
+        }
+
         // ------------------------- Collecting Times Now data -----------------------------------
         // axios.get(url, { headers: {'Access-Control-Allow-Origin': *} } )
         timesFallback.map((data) => {
@@ -99,7 +108,6 @@ class News extends Component {
                 }
                 var alength = res.data.length; 
                 res.data.map((datai) => {
-                    console.log(datai);
                     var actualLink = datai;
                     datai = datai.substring(hindu_base_url.length);
                     var dataa = datai.split('/');
@@ -128,6 +136,29 @@ class News extends Component {
                     hindu_illegal_entries: this.state.hindu_illegal_entries+1,
                 })
             });      
+        });
+        // ---------------------------------------- LiveMint -----------------------------------------------------------------
+        liveFallback.map((data) => {
+            var live_url = base_url+"livemint/author?name="+data.authorTag;
+            axios.get(live_url).then(res => {
+                if(res.data.length>15){
+                    res.data.splice(15, res.data.length-15);
+                }
+                var collected = [];
+                console.log(res.data);
+                res.data.map((result) => {
+                    var ameta = result.readtime + " | " + result.uploadtime;
+                    collected = [...collected, {heading: result.heads, time: ameta, link: result.articlelink}];
+                });
+                this.setState({
+                    live: [...this.state.live, {[data.authorName]: collected}]
+                });
+            }).catch(error => {
+                console.log(error);
+                this.setState({
+                    live_illegal_entries: this.state.live_illegal_entries+1,
+                })
+            });
         });
     
     }
@@ -162,7 +193,7 @@ class News extends Component {
                                                     {author[authorName].map((article) => {
                                                         return (
                                                             <div className="article-card">
-                                                                <a href={article.link} className="article-title">{article.heading}</a> 
+                                                                <a href={article.link} target="_blank" className="article-title">{article.heading}</a> 
                                                                 <br/>
                                                                 <span className="article-time">{article.time}</span>
                                                             </div>
@@ -198,7 +229,44 @@ class News extends Component {
                                                         }
                                                         return (
                                                             <div className="article-card">
-                                                                <a href={article.link} className="article-title">{article.heading}</a> 
+                                                                <a href={article.link} target="_blank" className="article-title">{article.heading}</a> 
+                                                                <br/>
+                                                                <span className="article-time">{article.time}</span>
+                                                            </div>
+                                                        
+                                                        );
+                                                    })}
+                                                </div>
+                                            </Card.Body>
+                                        </Card>
+                                        
+                                    </Col>
+                                </>
+                            );
+                        })}
+                    </Row>
+                    <Row className="text-center">
+                        { this.state.live.length>0  && <Col xs={12} className="source-heading-col" ><span className="text-center source-heading">LiveMint</span></Col>}
+                    </Row>
+                    <Row>
+                        {this.state.live.map((author) => {
+                            var authorName= Object.keys(author)[0];
+                            console.log(author[authorName]);
+                            return (
+                                <>
+                                    <Col xs={12} lg={6} className="card-margin">
+                                        <Card className="article-card">
+                                            <Card.Body style={{height: 500}}>
+                                                <Card.Title className="text-center author-heading"> {authorName} </Card.Title>
+                                                <hr/>
+                                                <div className="scrollable">
+                                                    {author[authorName].map((article) => {
+                                                        if(article.heading===''){
+                                                            article.heading = "Unable to pick the data!!";
+                                                        }
+                                                        return (
+                                                            <div className="article-card">
+                                                                <a href={article.link} target="_blank" className="article-title">{article.heading}</a> 
                                                                 <br/>
                                                                 <span className="article-time">{article.time}</span>
                                                             </div>
