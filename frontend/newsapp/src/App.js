@@ -19,14 +19,14 @@ class App extends Component{
     this.state = {
       timesdata: [],
       hindudata: [],
+      livedata:[],
     }
   };
-
-  
 
   componentDidMount() {
     var timesd = localStorage.getItem("timesdata");
     var hindud = localStorage.getItem("hindudata");
+    var lived = localStorage.getItem("livedata");
     if(timesd !== null) {
       var d = JSON.parse(timesd);
       this.setState({timesdata: d});
@@ -34,6 +34,10 @@ class App extends Component{
     if(hindud !== null) {
       var h = JSON.parse(hindud);
       this.setState({hindudata: h});
+    }
+    if(lived !== null) {
+      var l = JSON.parse(lived);
+      this.setState({livedata: l});
     }
     console.log("App-ComponentDidMount");
 
@@ -51,6 +55,13 @@ class App extends Component{
       localStorage.setItem("hindudata", JSON.stringify(this.state.hindudata));
     });
   }
+
+  addLiveData = (authorName, authorTag) => {
+    this.setState({livedata: [...this.state.livedata, {authorName: authorName, authorTag: authorTag}]}, () => {
+      localStorage.setItem("livedata", JSON.stringify(this.state.livedata));
+    });
+  }
+
   deleteTimesData = (data) => {
     var array = [...this.state.timesdata];
     var index = array.indexOf(data);
@@ -72,6 +83,17 @@ class App extends Component{
     }
   }
 
+  deleteLiveData = (data) => {
+    var array = [...this.state.livedata];
+    var index = array.indexOf(data);
+    if(index!==-1) {
+      array.splice(index, 1);
+      this.setState({livedata: array}, () => {
+        localStorage.setItem("livedata", JSON.stringify(array));
+      });
+    }
+  }
+
   render() {
     return (
       <div className="App">
@@ -81,15 +103,19 @@ class App extends Component{
             <Route exact path="/">
               <Home timesdata={this.state.timesdata} 
                 hindudata={this.state.hindudata} 
+                livedata={this.state.livedata}
                 aTimes={this.addTimesData} 
                 aHindu={this.addHinduData} 
+                aLive={this.addLiveData}
                 dtimes={this.deleteTimesData} 
                 dhindu={this.deleteHinduData} 
+                dlive={this.deleteLiveData}
               />
             </Route>
             <Route path="/news">
               <News timesdata={this.state.timesdata}
                hindudata={this.state.hindudata}
+               livedata={this.state.livedata}
                />
             </Route>
           </Switch>

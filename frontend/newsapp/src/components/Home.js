@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 const base_url = {
     "times_now": "https://www.timesnownews.com/expert/",
     "the_hindu": "https://www.thehindu.com/profile/author/",
+    "livemint": "https://www.livemint.com/Search/Link/Author/",
 };
 
 class Home extends Component {
@@ -47,6 +48,12 @@ class Home extends Component {
                 return; 
             }
             this.props.aHindu(authorName, authorTag);
+        }else if(this.asource.current.value === 'Livemint') {
+            if(this.props.livedata.some((e) => {return JSON.stringify({authorName: authorName, authorTag: authorTag})===JSON.stringify(e)})) {
+                alert("This Entry already exists");
+                return; 
+            }
+            this.props.aLive(authorName, authorTag);
         }
         this.name.current.value = "";
         this.atag.current.value = "";
@@ -57,6 +64,8 @@ class Home extends Component {
             this.asbase.current.value = base_url.times_now;
         }else if(this.asource.current.value === 'The Hindu') {
             this.asbase.current.value = base_url.the_hindu;
+        }else if(this.asource.current.value === 'Livemint') {
+            this.asbase.current.value = base_url.livemint;
         }
     }
 
@@ -66,6 +75,10 @@ class Home extends Component {
 
     deleteHindu = (Name) => {
         this.props.dhindu(Name);
+    }
+
+    deleteLive = (Name) => {
+        this.props.dlive(Name);
     }
 
     render() {
@@ -84,6 +97,7 @@ class Home extends Component {
                                     <Form.Control as="select" ref={this.asource} onChange={this.onSourceChange}>
                                         <option>Times Now</option>
                                         <option>The Hindu</option>
+                                        <option>Livemint</option>
                                     </Form.Control>
                                     <br />
                                     <Form.Row>
@@ -120,6 +134,15 @@ class Home extends Component {
                                         <span>{data.authorName}</span>
                                     </a>
                                     <a><AiFillCloseSquare className="cross" onClick={() => this.deleteHindu(data)}/></a>
+                                </span>
+                            ))}
+                            { this.props.livedata.length>0 && (<h5 className="form-sub-heading">LiveMint Authors</h5>) }  
+                            {this.props.livedata.map((data, idx) => (
+                                <span key={idx} className="tagbox-span">
+                                    <a className="tagbox-name" target="_blank" href={base_url.livemint+data.authorTag} >
+                                        <span>{data.authorName}</span>
+                                    </a>
+                                    <a><AiFillCloseSquare className="cross" onClick={() => this.deleteLive(data)}/></a>
                                 </span>
                             ))}
                         </Col>
