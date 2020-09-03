@@ -37,10 +37,10 @@ class News extends Component {
         var timesFallback, hinduFallback, liveFallback, hydnewsFallback, tv9Fallback, tv6Fallback;
         if(this.props.timesdata.length===0){
             var timesd = localStorage.getItem("timesdata");
-            var d = JSON.parse(timesd);
-            if(d===null){
+            if(timesd===null){
                 timesFallback = [];
             }else {
+                var d = JSON.parse(timesd);
                 timesFallback = d;
             }
         }else {
@@ -48,10 +48,10 @@ class News extends Component {
         }
         if(this.props.hindudata.length===0) {
             var hindud = localStorage.getItem("hindudata");
-            var h = JSON.parse(hindud);
-            if(h===null){
+            if(hindud===null){
                 hinduFallback = [];
             }else {
+                var h = JSON.parse(hindud);
                 hinduFallback = h;
             }
         }else {
@@ -59,10 +59,10 @@ class News extends Component {
         }
         if(this.props.livedata.length===0) {
             var lived = localStorage.getItem("livedata");
-            var l = JSON.parse(lived);
-            if(l===null){
+            if(lived===null){
                 liveFallback = [];
             }else {
+                var l = JSON.parse(lived);
                 liveFallback = l;
             }
         }else {
@@ -70,10 +70,10 @@ class News extends Component {
         }
         if(this.props.hydnewsdata.length===0) {
             var hydnewsd = localStorage.getItem("hydnewsdata");
-            var hy = JSON.parse(hydnewsd);
-            if(hy===null){
+            if(hydnewsd===null){
                 hydnewsFallback = [];
             }else {
+                var hy = JSON.parse(hydnewsd);
                 hydnewsFallback = hy;
             }
         }else {
@@ -81,10 +81,10 @@ class News extends Component {
         }
         if(this.props.tv9data.length===0) {
             var tv9d = localStorage.getItem("tv9data");
-            var t9 = JSON.parse(tv9d);
-            if(t9===null){
+            if(tv9d===null){
                 tv9Fallback = [];
             }else {
+                var t9 = JSON.parse(tv9d);
                 tv9Fallback = t9;
             }
         }else {
@@ -92,10 +92,10 @@ class News extends Component {
         }
         if(this.props.tv6data.length===0) {
             var tv6d = localStorage.getItem("tv6data");
-            var t6 = JSON.parse(tv6d);
-            if(l===null){
+            if(tv6d===null){
                 tv6Fallback = [];
             }else {
+                var t6 = JSON.parse(tv6d);
                 tv6Fallback = t6;
             }
         }else {
