@@ -63,6 +63,7 @@ class News extends Component {
         }
 
         // ------------------------- Collecting Times Now data -----------------------------------
+        // axios.get(url, { headers: {'Access-Control-Allow-Origin': *} } )
         timesFallback.map((data) => {
             var tags = data.authorTag.split('/');
             var aname = data.authorName;
@@ -70,6 +71,7 @@ class News extends Component {
             var times_url = base_url+"timesnow/requests?author="+tags[0].trim()+"&id="+tags[1].trim();
             // console.log(times_url);
             axios.get(times_url, { headers: {'Access-Control-Allow-Origin': '*'} }).then(res => {
+
                 if(res.data.length>10){
                     res.data.splice(10, res.data.length-10);
                 }

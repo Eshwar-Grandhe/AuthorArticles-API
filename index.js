@@ -5,7 +5,8 @@ var cors = require('cors');
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
+app.use(cors({origin: '*'}));
 
 // Hello world example
 app.get('/',(req,res)=>{
@@ -113,6 +114,34 @@ app.get('/thehindu/article',(req,res)=>{
         res.json(obj);
     });
 });
+
+// Live mint
+// Example url: http://localhost:5000/livemint/author?name=Swaraj-Singh-Dhanjal
+app.get('/livemint/author',function(req,res){
+    let parameters = req.query;
+    const link = "https://www.livemint.com/Search/Link/Author/"+parameters.name;  
+    axios.get(link).then(urlResponse =>{
+        const $ = cheerio.load(urlResponse.data);
+        const headings = [];
+        $('div.headlineSec').each((i,element)=>{
+            let articlelink = $(element).find('a').attr();
+            articlelink = "https://livemint.com"+articlelink.href;
+            const heads = $(element).find('h2').text();
+            const readtime = $(element).find('em > span').text();
+            const uploadtime = $(element).find('span > span').text();
+            headings.push({
+                heads,
+                articlelink,
+                readtime,
+                uploadtime
+            });
+        });
+        res.json(headings);
+    });
+
+});
+
+
 
 
 app.listen((process.env.PORT || 5000), function () {
