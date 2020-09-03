@@ -2,6 +2,7 @@ const express = require('express');
 const cheerio = require('cheerio');
 const axios = require('axios');
 var cors = require('cors');
+const { request } = require('express');
 
 const app = express();
 
@@ -26,6 +27,9 @@ app.get('/timesnow/requests',(req,res)=>{
             links.push(anchortag);
         });
         res.json(links);
+    }).catch(function(err){
+        if(err)
+        return res.status(404).send("Page not found");
     });
 });
 
@@ -58,6 +62,9 @@ app.get('/timesnow/article',(req,res)=>{
         });
         console.log(obj);
         res.json(obj);
+    }).catch(function(err){
+        if(err)
+        return res.status(404).send("Page not found");
     });
 });
 
@@ -75,6 +82,9 @@ app.get('/thehindu/requests',(req,res)=>{
             links.push(anchortag);
         });
         res.json(links);
+    }).catch(function(err){
+        if(err)
+        return res.status(404).send("Page not found");
     });
 });
 
@@ -112,6 +122,9 @@ app.get('/thehindu/article',(req,res)=>{
         });
         console.log(obj);
         res.json(obj);
+    }).catch(function(err){
+        if(err)
+        return res.status(404).send("Page not found");
     });
 });
 
@@ -137,13 +150,92 @@ app.get('/livemint/author',function(req,res){
             });
         });
         res.json(headings);
+    }).catch(function(err){
+        if(err)
+        return res.status(404).send("Page not found");
     });
+});
 
+// hydnews.net
+// example: http://localhost:3000/hydnews/author?authorname=vishwanath
+app.get('/hydnews/author',function(req,res){
+    let parameters = req.query;
+    const link = "http://www.hydnews.net/author/"+parameters.authorname;
+    axios.get(link).then(urlResponse =>{
+        connsole.log(urlResponse);
+        const $ = cheerio.load(urlResponse.data);
+        const links = [];
+        $('div.td_module_1').each((i,element)=>{
+            const article = $(element).find('h3').text();
+            let articlelink = $(element).find('h3 > a').attr();
+            articlelink = articlelink.href;
+            const uploadedDate = $(element).find('span.td-post-date').text();
+            links.push({
+                article,
+                articlelink,
+                uploadedDate
+            });
+        });
+        res.json(links);
+    }).catch(function(err){
+        if(err)
+        return res.status(404).send("Page not found");
+    });
+});
+
+// tv9 telugu
+// example http://localhost:3000/tv9/author?authorname=balaraju-goud
+app.get('/tv9/author',function(req,res){
+    const parameters = req.query;
+    const link = "https://tv9telugu.com/author/"+parameters.authorname;
+    axios.get(link).then(urlResponse =>{
+        const $ = cheerio.load(urlResponse.data);
+        const links = [];
+        $('article.posts-list__item').each((i,element)=>{
+            const article = $(element).find('h3').text();
+            let articlelink = $(element).find('h3 > a').attr();
+            articlelink = articlelink.href;
+            const uploadedDate = $(element).find('span.posted-on').text();
+            links.push({
+                article,
+                articlelink,
+                uploadedDate
+            }); 
+        });
+        res.json(links);
+    }).catch(function(err){
+        if(err)
+        return res.status(404).send("Page not found");
+    });
+});
+
+// tv6
+// http://localhost:3000/tv6/author?authorname=nicholas%20lutchmansingh
+app.get('/tv6/author',function(req,res){
+    const parameters = req.query;
+    const link = "https://www.tv6tnt.com/users/profile/"+parameters.authorname;
+    axios.get(link).then(urlResponse =>{
+        const $ = cheerio.load(urlResponse.data);
+        const links = [];
+        $('div.card-body').each((i,element)=>{
+            const heading = $(element).find('h3').text().trim();
+            let articlelink = $(element).find('a.tnt-asset-link').attr();
+            articlelink = "https://www.tv6tnt.com"+articlelink.href;
+            const uploadedDate = $(element).find('div.card-meta > ul > li.card-date').text().trim();
+            links.push({
+                heading,
+                articlelink,
+                uploadedDate
+            });
+        });
+        res.json(links);
+    }).catch(function(err){
+        if(err)
+        return res.status(404).send("Page not found");
+    });
 });
 
 
-
-
-app.listen((process.env.PORT || 5000), function () {
-    console.log("The Server Has Started! at port 5000");
+app.listen((process.env.PORT || 3000), function () {
+    console.log("The Server Has Started! at port 3000");
   });
