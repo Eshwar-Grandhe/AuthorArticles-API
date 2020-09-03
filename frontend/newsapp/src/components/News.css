@@ -1,6 +1,7 @@
 .source-heading {
     margin-top: 20px;
     font-size: 40px;
+    color: #2D80A9;
 }
 .source-heading-col {
     margin-top: 30px;
@@ -48,4 +49,9 @@
 
 .card-margin {
     margin-bottom: 20px;
+}
+
+.footer-loading {
+    position: fixed;
+    bottom: 0px;
 }
