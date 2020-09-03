@@ -1,6 +1,14 @@
 .form-heading {
     padding-top: 0px 10px 10px 10px;
     margin-top: 50px;
+    color: #2d80a9;
+}
+
+.entrycol {
+    border: 1px solid rgb(189, 189, 189);
+    margin-top: 40px;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 .author-form {
@@ -27,8 +35,10 @@
 }
 
 .cross:hover {
+    color: rgb(122, 120, 120);
     cursor: pointer;
 }
+
 
 .tagbox-name {
     text-decoration: none;

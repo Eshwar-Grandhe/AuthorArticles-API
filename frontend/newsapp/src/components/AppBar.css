@@ -1,6 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap');
+
 .brandimg {
-    width: 60%;
+    width: 15%;
     height: auto;
-    margin: 8px;
+    text-align: center;
+}
+.heading {
+    font-size: 2.5rem;
+    color: rgb(7, 141, 208);
+    font-weight: bold;
+    margin: 10px;
+    
 }
 
+.brandname {
+    text-align: center;
+    display: inline;
+    font-size: 2rem;
+    color: #1b4c64;
+    font-weight: bold;
+}
