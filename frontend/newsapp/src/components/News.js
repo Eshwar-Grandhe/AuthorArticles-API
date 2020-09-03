@@ -31,21 +31,33 @@ class News extends Component {
         if(this.props.timesdata.length===0){
             var timesd = localStorage.getItem("timesdata");
             var d = JSON.parse(timesd);
-            timesFallback = d;
+            if(d===null){
+                timesFallback = [];
+            }else {
+                timesFallback = d;
+            }
         }else {
             timesFallback = this.props.timesdata;
         }
         if(this.props.hindudata.length===0) {
             var hindud = localStorage.getItem("hindudata");
             var h = JSON.parse(hindud);
-            hinduFallback = h;
+            if(h===null){
+                hinduFallback = [];
+            }else {
+                hinduFallback = h;
+            }
         }else {
             hinduFallback = this.props.hindudata;
         }
         if(this.props.livedata.length===0) {
             var lived = localStorage.getItem("livedata");
             var l = JSON.parse(lived);
-            liveFallback = l;
+            if(l===null){
+                liveFallback = [];
+            }else {
+                liveFallback = l;
+            }
         }else {
             liveFallback = this.props.livedata;
         }
@@ -58,7 +70,8 @@ class News extends Component {
             var collected = [];
             var times_url = base_url+"timesnow/requests?author="+tags[0].trim()+"&id="+tags[1].trim();
             // console.log(times_url);
-            axios.get(times_url,{ headers: {'Access-Control-Allow-Origin': '*'} } ).then(res => {
+            axios.get(times_url, { headers: {'Access-Control-Allow-Origin': '*'} }).then(res => {
+
                 if(res.data.length>10){
                     res.data.splice(10, res.data.length-10);
                 }
@@ -140,7 +153,7 @@ class News extends Component {
         // ---------------------------------------- LiveMint -----------------------------------------------------------------
         liveFallback.map((data) => {
             var live_url = base_url+"livemint/author?name="+data.authorTag;
-            axios.get(live_url).then(res => {
+            axios.get(live_url, { headers: {'Access-Control-Allow-Origin': '*'} }).then(res => {
                 if(res.data.length>15){
                     res.data.splice(15, res.data.length-15);
                 }

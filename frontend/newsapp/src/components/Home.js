@@ -21,11 +21,32 @@ class Home extends Component {
         this.asource = React.createRef();
     }
 
-
-
     onSave = (event) => {
         let authorName = this.name.current.value;
-        let authorTag = this.atag.current.value;
+        let full_url = this.atag.current.value;
+        let authorTag;
+        if(this.asource.current.value === 'Times Now') {
+            if(full_url.substring(0, base_url.times_now.length)===base_url.times_now){
+                authorTag = full_url.substring(base_url.times_now.length);
+            }else{
+                alert("URL is not of Times Now, Please enter the right one");
+                return;
+            }
+        }else if(this.asource.current.value === 'The Hindu') {
+            if(full_url.substring(0, base_url.the_hindu.length)===base_url.the_hindu){
+                authorTag = full_url.substring(base_url.the_hindu.length);
+            }else{
+                alert("URL is not of The Hindu, Please enter the right one");
+                return;
+            }
+        }else if(this.asource.current.value === 'Livemint') {
+            if(full_url.substring(0, base_url.livemint.length)===base_url.livemint){
+                authorTag = full_url.substring(base_url.livemint.length);
+            }else{
+                alert("URL is not of Livemint, Please enter the right one");
+                return;
+            }
+        }
         if(authorTag.charAt(0)==='/') {
             authorTag = authorTag.slice(1);
         }
@@ -59,15 +80,7 @@ class Home extends Component {
         this.atag.current.value = "";
     };
 
-    onSourceChange = () => {
-        if(this.asource.current.value === 'Times Now') {
-            this.asbase.current.value = base_url.times_now;
-        }else if(this.asource.current.value === 'The Hindu') {
-            this.asbase.current.value = base_url.the_hindu;
-        }else if(this.asource.current.value === 'Livemint') {
-            this.asbase.current.value = base_url.livemint;
-        }
-    }
+    
 
     deleteTimes = (Name) => {
         this.props.dtimes(Name);
@@ -86,23 +99,25 @@ class Home extends Component {
             <div>
                 <Container>
                     <Row>
-                        <Col lg={6}>
-                            <h3 className="form-heading">Add Your Favorite Author</h3>
+                        <Col lg={6} className="entrycol">
+                            <h3 className="form-heading text-center">Add Your Favorite Author</h3>
+                            <hr />
+
                             <Form className="author-form">
                                 <Form.Group>
                                     <Form.Label>Name</Form.Label>
                                     <Form.Control size="md" type="text" placeholder="Author's Name" ref={this.name} />
                                     <br />
                                     <Form.Label>Select the source</Form.Label>
-                                    <Form.Control as="select" ref={this.asource} onChange={this.onSourceChange}>
+                                    <Form.Control as="select" ref={this.asource}>
                                         <option>Times Now</option>
                                         <option>The Hindu</option>
                                         <option>Livemint</option>
                                     </Form.Control>
                                     <br />
                                     <Form.Row>
-                                        <Col xs={8} ><Form.Control size="md" ref={this.asbase} disabled defaultValue="https://www.timesnownews.com/expert/"></Form.Control> </Col>
-                                        <Col xs={4} ><Form.Control size="md" ref={this.atag} placeholder="author tag"></Form.Control></Col>
+                                        {/* <Col xs={8} ><Form.Control size="md" ref={this.asbase} disabled defaultValue="https://www.timesnownews.com/expert/"></Form.Control> </Col> */}
+                                        <Col xs={12} ><Form.Control size="md" ref={this.atag} placeholder="Author's Profile URL"></Form.Control></Col>
                                     </Form.Row>
                                     <br />
                                     <Form.Row>
@@ -114,8 +129,9 @@ class Home extends Component {
                                 </Form.Group>
                             </Form>
                         </Col>
-                        <Col lg={{span: 5, offset: 1}} style={{marginBottom: 30}} >
-                            <h3 className="form-heading">Authors list</h3>
+                        <Col lg={{span: 5, offset: 1}} style={{marginBottom: 30, marginTop: 40}} >
+                            <h3 className="form-heading text-center">Authors list</h3>
+                            <hr/>
                             { this.props.timesdata.length>0 && (
                                 <h5 className="form-sub-heading">Times Now Authors</h5>
                             ) }
