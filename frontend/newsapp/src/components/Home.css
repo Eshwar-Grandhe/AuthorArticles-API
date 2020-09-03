@@ -5,7 +5,7 @@
 }
 
 .entrycol {
-    border: 1px solid rgb(189, 189, 189);
+    /* border: 1px solid rgb(189, 189, 189); */
     margin-top: 40px;
     padding-left: 8px;
     padding-right: 8px;
@@ -52,4 +52,5 @@
 
 .form-sub-heading {
     margin-top: 20px;
+    font-weight: bold;
 }
